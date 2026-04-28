@@ -16,12 +16,12 @@ export default function RankingCard({ candidate, isFirst }: RankingCardProps) {
           <div className="flex items-start justify-between">
             <div className="z-10">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-bold tracking-widest mb-4 border border-primary/30">
-                CURRENT SOVEREIGN
+                NGƯỜI DẪN ĐẦU HIỆN TẠI
               </span>
               <h3 className="font-headline text-3xl text-primary drop-shadow-md mb-1 leading-tight">
                 {candidate.name.split(' ')[0]}<br />{candidate.name.split(' ')[1]}
               </h3>
-              <p className="text-on-surface-variant text-xs font-medium tracking-wide">{candidate.votes.toLocaleString()} VOTES</p>
+              <p className="text-on-surface-variant text-xs font-medium tracking-wide">{candidate.votes.toLocaleString()} BÌNH CHỌN</p>
             </div>
             <div className="relative -mr-10 -mt-6">
               <div className="w-40 h-48 bg-surface-container-highest rounded-bl-[4rem] overflow-hidden rotate-3 group-hover:rotate-0 transition-transform duration-700">
@@ -38,7 +38,7 @@ export default function RankingCard({ candidate, isFirst }: RankingCardProps) {
           
           <div className="mt-8 space-y-2">
             <div className="flex justify-between items-end text-[10px] font-bold tracking-widest text-on-surface-variant">
-              <span>MOMENTUM</span>
+              <span>TĂNG TRƯỞNG</span>
               <span className="text-primary">{candidate.momentum}</span>
             </div>
             <div className="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">

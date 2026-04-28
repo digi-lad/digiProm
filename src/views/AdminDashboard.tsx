@@ -161,16 +161,16 @@ export default function AdminDashboard() {
       }
 
       if (opCount > 500) {
-        alert("Warning: Total items exceed 500. Only the first 500 updates will be applied in this single batch.");
+        alert("Cảnh báo: Tổng số lượng vượt quá 500. Chỉ 500 cập nhật đầu tiên sẽ được áp dụng trong đợt này.");
       }
       
       await batch.commit();
       
-      setAlertMessage("All data has been reset successfully.");
+      setAlertMessage("Tất cả dữ liệu đã được đặt lại thành công.");
       setTimeout(() => setAlertMessage(null), 3000);
     } catch (error) {
       console.error("Error resetting data:", error);
-      alert("Failed to reset data. Check console for details.");
+      alert("Đặt lại dữ liệu thất bại. Kiểm tra console để biết chi tiết.");
     }
   };
 
@@ -245,7 +245,7 @@ export default function AdminDashboard() {
       setSelectedTickets(prev => prev.filter(c => c !== code));
     } catch (error) {
       console.error("Error deleting ticket:", error);
-      setAlertMessage("Error deleting ticket. Please try again.");
+      setAlertMessage("Lỗi khi xóa vé. Vui lòng thử lại.");
     }
   };
 
@@ -260,10 +260,10 @@ export default function AdminDashboard() {
       await batch.commit();
       setSelectedTickets([]);
       setIsDeletingSelected(false);
-      setAlertMessage(`Successfully deleted ${selectedTickets.length} tickets.`);
+      setAlertMessage(`Đã xóa thành công ${selectedTickets.length} vé.`);
     } catch (error) {
       console.error("Error deleting selected tickets:", error);
-      setAlertMessage("Error deleting tickets. Please try again.");
+      setAlertMessage("Lỗi khi xóa vé. Vui lòng thử lại.");
     }
   };
 
@@ -277,10 +277,10 @@ export default function AdminDashboard() {
         className: ticketForm.className
       });
       setEditingTicket(null);
-      setAlertMessage("Ticket updated successfully.");
+      setAlertMessage("Cập nhật vé thành công.");
     } catch (error) {
       console.error("Error updating ticket:", error);
-      setAlertMessage("Error updating ticket. Please try again.");
+      setAlertMessage("Lỗi khi cập nhật vé. Vui lòng thử lại.");
     }
   };
 
@@ -321,11 +321,11 @@ export default function AdminDashboard() {
         
         if (count > 0) {
           await batch.commit();
-          setAlertMessage(`Successfully imported ${count} tickets.`);
+          setAlertMessage(`Đã nhập thành công ${count} vé.`);
         }
       } catch (error) {
         console.error("Error parsing Excel:", error);
-        setAlertMessage("Failed to parse Excel file. Please ensure it has columns: 'Họ tên', 'Phụ huynh/Học sinh', 'Lớp'.");
+        setAlertMessage("Lỗi khi đọc file Excel. Vui lòng đảm bảo có các cột: 'Họ tên', 'Phụ huynh/Học sinh', 'Lớp'.");
       }
     };
     reader.readAsBinaryString(file);
@@ -408,7 +408,7 @@ export default function AdminDashboard() {
             <span className="group-hover:hidden">CA</span>
             <span className="hidden group-hover:inline">Celestial Admin</span>
           </h1>
-          <p className="text-[8px] uppercase tracking-widest text-on-surface-variant mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Prom Curator</p>
+          <p className="text-[8px] uppercase tracking-widest text-on-surface-variant mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Quản lý Prom</p>
         </div>
 
         <nav className="flex-1 px-3 group-hover:px-4 space-y-2 mt-8 transition-all duration-300">
@@ -417,21 +417,21 @@ export default function AdminDashboard() {
             className={`w-full flex items-center gap-4 px-4 py-3 font-bold transition-all whitespace-nowrap border-l-2 ${activeTab === 'CANDIDATES' ? 'text-primary border-primary bg-gradient-to-r from-primary/5 to-transparent' : 'text-on-surface-variant hover:text-on-surface hover:bg-white/5 border-transparent'}`}
           >
             <Users className="w-5 h-5 shrink-0" />
-            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Candidate Management</span>
+            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Quản lý Ứng Viên</span>
           </button>
           <button 
             onClick={() => setActiveTab('TICKETS')}
             className={`w-full flex items-center gap-4 px-4 py-3 font-bold transition-all whitespace-nowrap border-l-2 ${activeTab === 'TICKETS' ? 'text-primary border-primary bg-gradient-to-r from-primary/5 to-transparent' : 'text-on-surface-variant hover:text-on-surface hover:bg-white/5 border-transparent'}`}
           >
             <Ticket className="w-5 h-5 shrink-0" />
-            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Ticket Management</span>
+            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Quản lý Vé</span>
           </button>
           <button 
             onClick={() => (window as any).onViewChange('LED_LEADERBOARD')}
             className="w-full flex items-center gap-4 px-4 py-3 text-secondary font-bold hover:bg-secondary/5 transition-all border-l-2 border-transparent hover:border-secondary whitespace-nowrap"
           >
             <Sparkles className="w-5 h-5 shrink-0" />
-            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">LED Screen View</span>
+            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Chế độ màn hình LED</span>
           </button>
           <button 
             onClick={() => {
@@ -441,7 +441,7 @@ export default function AdminDashboard() {
             className="w-full flex items-center gap-4 px-4 py-3 text-red-400 font-bold hover:bg-red-400/5 transition-all border-l-2 border-transparent hover:border-red-400 whitespace-nowrap"
           >
             <LogOut className="w-5 h-5 shrink-0" />
-            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Log Out Admin</span>
+            <span className="text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">Đăng xuất Admin</span>
           </button>
         </nav>
 
@@ -449,7 +449,7 @@ export default function AdminDashboard() {
           {/* Blind Mode Toggle */}
           <div className="bg-surface-variant/40 rounded-xl p-4 border border-secondary/20">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[10px] uppercase tracking-widest text-secondary font-bold">Blind Mode</span>
+              <span className="text-[10px] uppercase tracking-widest text-secondary font-bold">Chế độ ẩn</span>
               <button 
                 onClick={toggleBlindMode} 
                 className={`w-10 h-5 rounded-full relative transition-colors ${isBlindMode ? 'bg-secondary' : 'bg-surface-container-highest'}`}
@@ -457,13 +457,13 @@ export default function AdminDashboard() {
                 <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${isBlindMode ? 'right-1' : 'left-1'}`} />
               </button>
             </div>
-            <p className="text-[8px] text-on-surface-variant leading-tight">Freezes public leaderboard.</p>
+            <p className="text-[8px] text-on-surface-variant leading-tight">Đóng băng bảng xếp hạng công khai.</p>
           </div>
 
           {/* Poll Operations */}
           <div className="bg-surface-variant/40 rounded-xl p-4 border border-primary/20">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[10px] uppercase tracking-widest text-primary font-bold">Voting Poll</span>
+              <span className="text-[10px] uppercase tracking-widest text-primary font-bold">Bình Chọn</span>
             </div>
             
             {pollEndTime && pollEndTime > Date.now() ? (
@@ -473,7 +473,7 @@ export default function AdminDashboard() {
                   onClick={stopPoll} 
                   className="w-full py-1.5 bg-error text-white font-bold text-[10px] uppercase tracking-widest rounded transition-colors hover:brightness-110"
                 >
-                  Stop Poll
+                  Dừng Bình Chọn
                 </button>
               </div>
             ) : (
@@ -486,23 +486,23 @@ export default function AdminDashboard() {
                     className="w-12 bg-surface-container border border-outline-variant/30 rounded p-1 text-xs text-on-surface focus:outline-none"
                     min="1"
                   />
-                  <span className="text-[10px] text-on-surface-variant">Minutes</span>
+                  <span className="text-[10px] text-on-surface-variant">Phút</span>
                 </div>
                 <button 
                   onClick={startPoll} 
                   className="w-full py-1.5 bg-primary text-on-primary font-bold text-[10px] uppercase tracking-widest rounded transition-colors hover:brightness-110"
                 >
-                  Start Poll
+                  Bắt Đầu Bình Chọn
                 </button>
               </div>
             )}
-            <p className="text-[8px] text-on-surface-variant leading-tight mt-2 pb-1 border-b border-primary/10">Sets an active countdown window for users to vote.</p>
+            <p className="text-[8px] text-on-surface-variant leading-tight mt-2 pb-1 border-b border-primary/10">Thiết lập thời gian đếm ngược cho người dùng bình chọn.</p>
           </div>
 
           {/* Danger Zone */}
           <div className="bg-surface-variant/40 rounded-xl p-4 border border-error/50">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[10px] uppercase tracking-widest text-error font-bold text-center w-full">Danger Zone</span>
+              <span className="text-[10px] uppercase tracking-widest text-error font-bold text-center w-full">Khu Vực Nguy Hiểm</span>
             </div>
             
             <div className="flex flex-col gap-2">
@@ -510,10 +510,10 @@ export default function AdminDashboard() {
                 onClick={() => setShowResetConfirm(true)} 
                 className="w-full py-2 bg-error/20 text-error font-bold text-[10px] uppercase tracking-widest rounded border border-error/50 hover:bg-error hover:text-white transition-colors"
               >
-                Reset All Data
+                Đặt Lại Tất Cả Dữ Liệu
               </button>
             </div>
-            <p className="text-[8px] text-error/80 leading-tight mt-2 text-center">Unuses all tickets & clears votes.</p>
+            <p className="text-[8px] text-error/80 leading-tight mt-2 text-center">Đưa tất cả vé về chưa sử dụng và xóa số lượt bình chọn.</p>
           </div>
         </div>
       </aside>
@@ -524,20 +524,20 @@ export default function AdminDashboard() {
           <div className="space-y-12">
             <div className="flex justify-between items-end">
               <div>
-                <h3 className="font-headline text-3xl text-on-surface">Royal Nominees</h3>
-                <p className="text-xs uppercase tracking-widest text-primary mt-1">King & Queen Candidates</p>
+                <h3 className="font-headline text-3xl text-on-surface">Các Ứng Viên</h3>
+                <p className="text-xs uppercase tracking-widest text-primary mt-1">Ứng Viên King & Queen</p>
               </div>
               <div className="flex gap-4">
                 {candidates.length === 0 && (
                   <button onClick={seedCandidates} className="flex items-center gap-2 text-[10px] font-bold text-secondary hover:text-primary transition-colors uppercase tracking-widest">
-                    <Database className="w-4 h-4" /> Seed Data
+                    <Database className="w-4 h-4" /> Tạo Dữ Liệu Mẫu
                   </button>
                 )}
                 <button 
                   onClick={handleAddClick}
                   className="flex items-center gap-2 text-[10px] font-bold text-primary hover:text-secondary transition-colors uppercase tracking-widest"
                 >
-                  <PlusCircle className="w-4 h-4" /> Add Candidate
+                  <PlusCircle className="w-4 h-4" /> Thêm Ứng Viên
                 </button>
               </div>
             </div>
@@ -545,7 +545,7 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Kings Section */}
               <section>
-                <h4 className="font-headline text-2xl text-secondary mb-6 border-b border-secondary/20 pb-2">King Candidates</h4>
+                <h4 className="font-headline text-2xl text-secondary mb-6 border-b border-secondary/20 pb-2">Ứng viên King</h4>
                 <div className="space-y-4">
                   {kings.map((c, i) => (
                     <div key={c.id} className="group relative flex items-center gap-4 bg-surface-container/30 hover:bg-surface-container/50 transition-all p-4 rounded-xl border border-outline-variant/10">
@@ -561,7 +561,7 @@ export default function AdminDashboard() {
                             onClick={() => handleEditClick(c)}
                             className="text-[10px] px-3 py-1 border border-outline-variant/20 rounded-full hover:border-primary hover:text-primary transition-all uppercase font-bold"
                           >
-                            Edit
+                            Sửa
                           </button>
                           <button 
                             onClick={() => handleDeleteCandidate(c.id)}
@@ -573,13 +573,13 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                   ))}
-                  {kings.length === 0 && <p className="text-sm text-on-surface-variant italic">No King candidates found.</p>}
+                  {kings.length === 0 && <p className="text-sm text-on-surface-variant italic">Không tìm thấy ứng viên King.</p>}
                 </div>
               </section>
 
               {/* Queens Section */}
               <section>
-                <h4 className="font-headline text-2xl text-secondary mb-6 border-b border-secondary/20 pb-2">Queen Candidates</h4>
+                <h4 className="font-headline text-2xl text-secondary mb-6 border-b border-secondary/20 pb-2">Ứng viên Queen</h4>
                 <div className="space-y-4">
                   {queens.map((c, i) => (
                     <div key={c.id} className="group relative flex items-center gap-4 bg-surface-container/30 hover:bg-surface-container/50 transition-all p-4 rounded-xl border border-outline-variant/10">
@@ -595,7 +595,7 @@ export default function AdminDashboard() {
                             onClick={() => handleEditClick(c)}
                             className="text-[10px] px-3 py-1 border border-outline-variant/20 rounded-full hover:border-primary hover:text-primary transition-all uppercase font-bold"
                           >
-                            Edit
+                            Sửa
                           </button>
                           <button 
                             onClick={() => handleDeleteCandidate(c.id)}
@@ -607,7 +607,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                   ))}
-                  {queens.length === 0 && <p className="text-sm text-on-surface-variant italic">No Queen candidates found.</p>}
+                  {queens.length === 0 && <p className="text-sm text-on-surface-variant italic">Không tìm thấy ứng viên Queen.</p>}
                 </div>
               </section>
             </div>
@@ -620,25 +620,25 @@ export default function AdminDashboard() {
             <section>
               <div className="bg-surface-container-low/60 backdrop-blur-md rounded-2xl p-8 border border-white/5 h-full">
                 <div className="flex items-center justify-between mb-8">
-                  <h3 className="font-headline text-2xl text-on-surface">Ticket Registry</h3>
+                  <h3 className="font-headline text-2xl text-on-surface">Danh Sách Vé</h3>
                   <div className="flex gap-4">
                     {selectedTickets.length > 0 && (
                       <button 
                         onClick={() => setIsDeletingSelected(true)}
                         className="flex items-center gap-2 text-[10px] font-bold text-error hover:text-error/80 transition-colors uppercase tracking-widest"
                       >
-                        <Trash2 className="w-4 h-4" /> Delete Selected ({selectedTickets.length})
+                        <Trash2 className="w-4 h-4" /> Xóa Đã Chọn ({selectedTickets.length})
                       </button>
                     )}
                     <label className="cursor-pointer flex items-center gap-2 text-[10px] font-bold text-secondary hover:text-primary transition-colors uppercase tracking-widest">
-                      <Database className="w-4 h-4" /> Upload Excel
+                      <Database className="w-4 h-4" /> Tải lên Excel
                       <input type="file" accept=".xlsx, .xls" className="hidden" onChange={handleUploadExcel} />
                     </label>
                     <button 
                       onClick={handleDownloadExcel}
                       className="flex items-center gap-2 text-[10px] font-bold text-secondary hover:text-primary transition-colors uppercase tracking-widest"
                     >
-                      <Filter className="w-4 h-4" /> Download Excel
+                      <Filter className="w-4 h-4" /> Tải xuống Excel
                     </button>
                     <button 
                       onClick={() => {
@@ -647,7 +647,7 @@ export default function AdminDashboard() {
                       }}
                       className="flex items-center gap-2 text-[10px] font-bold text-primary hover:text-secondary transition-colors uppercase tracking-widest"
                     >
-                      <PlusCircle className="w-4 h-4" /> Add Ticket
+                      <PlusCircle className="w-4 h-4" /> Thêm Vé
                     </button>
                   </div>
                 </div>
@@ -657,7 +657,7 @@ export default function AdminDashboard() {
                     <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" />
                     <input 
                       type="text" 
-                      placeholder="Search by code, name, or class..." 
+                      placeholder="Tìm kiếm theo mã, tên, hoặc lớp..." 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full bg-surface-container border border-outline-variant/30 rounded-lg py-2 pl-10 pr-4 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary transition-colors"
@@ -669,16 +669,16 @@ export default function AdminDashboard() {
                       onChange={(e) => setStatusFilter(e.target.value as any)}
                       className="bg-surface-container border border-outline-variant/30 rounded-lg py-2 px-4 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
                     >
-                      <option value="ALL">All Status</option>
-                      <option value="UNUSED">Unused</option>
-                      <option value="USED">Used</option>
+                      <option value="ALL">Tất cả trạng thái</option>
+                      <option value="UNUSED">Chưa sử dụng</option>
+                      <option value="USED">Đã sử dụng</option>
                     </select>
                     <select 
                       value={typeFilter}
                       onChange={(e) => setTypeFilter(e.target.value)}
                       className="bg-surface-container border border-outline-variant/30 rounded-lg py-2 px-4 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
                     >
-                      <option value="ALL">All Types</option>
+                      <option value="ALL">Tất cả loại</option>
                       {uniqueTypes.map(type => (
                         <option key={type} value={type}>{type}</option>
                       ))}
@@ -698,12 +698,12 @@ export default function AdminDashboard() {
                             className="rounded border-outline-variant/30 bg-surface-container text-primary focus:ring-primary focus:ring-offset-background"
                           />
                         </th>
-                        <th className="pb-4 font-bold px-4">Code</th>
-                        <th className="pb-4 font-bold px-4">Status</th>
+                        <th className="pb-4 font-bold px-4">Mã</th>
+                        <th className="pb-4 font-bold px-4">Trạng thái</th>
                         <th className="pb-4 font-bold px-4">Họ tên</th>
                         <th className="pb-4 font-bold px-4">Phụ huynh/Học sinh</th>
                         <th className="pb-4 font-bold px-4">Lớp</th>
-                        <th className="pb-4 font-bold px-4 text-right">Actions</th>
+                        <th className="pb-4 font-bold px-4 text-right">Thao tác</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -735,7 +735,7 @@ export default function AdminDashboard() {
                                 }}
                                 className="text-[10px] px-2 py-1 border border-outline-variant/20 rounded-full hover:border-primary hover:text-primary transition-all uppercase font-bold"
                               >
-                                Edit
+                                Sửa
                               </button>
                               <button 
                                 onClick={() => setTicketToDelete(t.code)}
@@ -749,7 +749,7 @@ export default function AdminDashboard() {
                       ))}
                       {filteredTickets.length === 0 && (
                         <tr>
-                          <td colSpan={7} className="py-8 text-center text-on-surface-variant text-sm">No tickets found.</td>
+                          <td colSpan={7} className="py-8 text-center text-on-surface-variant text-sm">Không tìm thấy vé nào.</td>
                         </tr>
                       )}
                     </tbody>
@@ -770,7 +770,7 @@ export default function AdminDashboard() {
             className="bg-surface-container-high border border-outline-variant/30 rounded-2xl p-8 w-full max-w-md shadow-2xl"
           >
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-headline text-2xl text-on-surface">Add Ticket</h3>
+              <h3 className="font-headline text-2xl text-on-surface">Thêm Vé</h3>
               <button 
                 onClick={() => setIsAddingTicket(false)} 
                 className="text-on-surface-variant hover:text-on-surface transition-colors"

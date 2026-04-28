@@ -34,7 +34,7 @@ function LedRankRow({ candidate, rank, isBlind }: LedRankRowProps) {
           </span>
         </div>
         <div className="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
-          <motion.div 
+          <motion.div
             initial={{ width: 0 }}
             animate={{ width: isBlind ? '0%' : `${100 - rank * 8}%` }}
             transition={{ duration: 1, delay: rank * 0.1 }}
@@ -107,27 +107,27 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
       {/* Top Bar */}
       <header className="fixed top-0 w-full z-50 flex items-center justify-between px-12 py-6 bg-[#000e25]/80 backdrop-blur-xl border-b border-primary/5">
         <div className="flex items-center gap-4">
-          
+
         </div>
-        
+
         {/* Countdown Timer */}
         {isPollOpen ? (
           <div className="flex flex-col items-center">
-            <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-secondary mb-1">Voting Closes In</span>
+            <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-secondary mb-1">Dừng Bỏ Phiếu Sau</span>
             <div className="font-mono text-4xl text-primary font-bold shadow-[0_0_20px_rgba(245,206,83,0.2)] rounded-lg px-4 py-1 bg-surface-container/50 border border-primary/20">
               {countdownString || '00:00'}
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-error mb-1">Voting Status</span>
+            <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-error mb-1">Trạng Thái</span>
             <div className="font-headline text-2xl text-error font-bold tracking-widest bg-surface-container/50 border border-error/20 rounded-lg px-4 py-2">
               CLOSED
             </div>
           </div>
         )}
 
-        <button 
+        <button
           onClick={() => onViewChange('ADMIN')}
           className="text-primary hover:text-secondary transition-colors p-2"
         >
@@ -139,19 +139,19 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
         {/* TOP KING SECTION */}
         <section className="flex flex-col space-y-12">
           <div className="flex flex-col items-center text-center">
-            
+
             <div className="relative group">
               <div className="w-72 h-96 rounded-full overflow-hidden border-4 border-primary/30 nebula-glow relative">
                 {topKing && (
-                  <img 
-                    src={topKing.imageUrl || undefined} 
-                    alt="Top King" 
+                  <img
+                    src={topKing.imageUrl || undefined}
+                    alt="Top King"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
-                
+
                 {isBlindMode && (
                   <div className="absolute inset-0 bg-surface/90 backdrop-blur-xl z-20 flex flex-col items-center justify-center text-center p-8">
                     <EyeOff className="text-primary w-16 h-16 mb-6 opacity-80" />
@@ -178,10 +178,10 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
 
           <div className="flex flex-col space-y-4 mt-12 px-8">
             {kings.slice(1, 4).map((candidate, idx) => (
-              <LedRankRow 
-                key={candidate.id} 
-                candidate={candidate} 
-                rank={idx + 2} 
+              <LedRankRow
+                key={candidate.id}
+                candidate={candidate}
+                rank={idx + 2}
                 isBlind={isBlindMode && idx === 2}
               />
             ))}
@@ -191,13 +191,13 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
         {/* TOP QUEEN SECTION */}
         <section className="flex flex-col space-y-12">
           <div className="flex flex-col items-center text-center">
-            
+
             <div className="relative group">
               <div className="w-72 h-96 rounded-full overflow-hidden border-4 border-primary/30 nebula-glow relative">
                 {topQueen && (
-                  <img 
-                    src={topQueen.imageUrl || undefined} 
-                    alt="Top Queen" 
+                  <img
+                    src={topQueen.imageUrl || undefined}
+                    alt="Top Queen"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
                   />
@@ -230,10 +230,10 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
 
           <div className="flex flex-col space-y-4 mt-12 px-8">
             {queens.slice(1, 4).map((candidate, idx) => (
-              <LedRankRow 
-                key={candidate.id} 
-                candidate={candidate} 
-                rank={idx + 2} 
+              <LedRankRow
+                key={candidate.id}
+                candidate={candidate}
+                rank={idx + 2}
               />
             ))}
           </div>

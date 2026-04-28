@@ -18,7 +18,7 @@ export default function BottomNav({ currentView, onViewChange }: BottomNavProps)
           className={`flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all ${currentView === 'GATEWAY' ? 'bg-primary/10 text-primary' : 'text-on-surface/40'}`}
         >
           <Home className="w-6 h-6" />
-          <span className="font-body text-[10px] uppercase tracking-widest mt-1">Home</span>
+          <span className="font-body text-[10px] uppercase tracking-widest mt-1">Trang chủ</span>
         </button>
       )}
 
@@ -28,7 +28,7 @@ export default function BottomNav({ currentView, onViewChange }: BottomNavProps)
           className={`flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all ${currentView === 'VOTING' ? 'bg-primary/10 text-primary' : 'text-on-surface/40'}`}
         >
           <Crown className="w-6 h-6" />
-          <span className="font-body text-[10px] uppercase tracking-widest mt-1">Vote</span>
+          <span className="font-body text-[10px] uppercase tracking-widest mt-1">Bình chọn</span>
         </button>
       )}
       
@@ -37,7 +37,7 @@ export default function BottomNav({ currentView, onViewChange }: BottomNavProps)
         className={`flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all ${currentView === 'RANKINGS' ? 'bg-primary/10 text-primary' : 'text-on-surface/40'}`}
       >
         <BarChart3 className="w-6 h-6" />
-        <span className="font-body text-[10px] uppercase tracking-widest mt-1">Rankings</span>
+        <span className="font-body text-[10px] uppercase tracking-widest mt-1">Xếp hạng</span>
       </button>
     </nav>
   );

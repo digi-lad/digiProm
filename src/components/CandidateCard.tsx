@@ -38,11 +38,11 @@ export default function CandidateCard({ candidate, isSelected, onSelect }: Candi
             {isSelected ? (
               <div className="flex items-center gap-1 text-secondary">
                 <CheckCircle2 className="w-4 h-4 fill-secondary text-on-secondary" />
-                <span className="font-body text-[10px] font-bold uppercase tracking-wider">Currently Selected</span>
+                <span className="font-body text-[10px] font-bold uppercase tracking-wider">Đang Chọn</span>
               </div>
             ) : (
               <div className="font-body text-[10px] font-bold uppercase tracking-widest text-on-surface/50">
-                Tap to Select
+                Nhấn Để Chọn
               </div>
             )}
           </div>

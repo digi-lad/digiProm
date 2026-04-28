@@ -30,8 +30,8 @@ export default function RankingsView() {
     <main className="min-h-screen pt-24 pb-32 px-6 max-w-lg mx-auto">
       <div className="mb-10 text-center relative">
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-64 nebula-glow -z-10"></div>
-        <p className="text-primary text-[10px] uppercase tracking-[0.3em] font-bold mb-2">The Night of Ascension</p>
-        <h2 className="font-headline text-4xl text-on-surface leading-tight">Live Rankings</h2>
+        <p className="text-primary text-[10px] uppercase tracking-[0.3em] font-bold mb-2">Đêm Thăng Hoa</p>
+        <h2 className="font-headline text-4xl text-on-surface leading-tight">Bảng Xếp Hạng Trực Tiếp</h2>
       </div>
 
       <div className="flex p-1 bg-surface-container-high/40 backdrop-blur-md rounded-full mb-12 border border-outline-variant/10 shadow-inner">
@@ -59,12 +59,12 @@ export default function RankingsView() {
           {activeCandidates.length > 0 && <RankingCard candidate={activeCandidates[0]} isFirst />}
           
           <section className="space-y-6 mt-6">
-            <h4 className="text-[10px] font-bold tracking-[0.4em] text-on-surface-variant uppercase pl-2 mb-4">Noble Contenders</h4>
+            <h4 className="text-[10px] font-bold tracking-[0.4em] text-on-surface-variant uppercase pl-2 mb-4">Các Ứng Viên Sáng Giá</h4>
             {activeCandidates.slice(1).map(candidate => (
               <RankingCard key={candidate.id} candidate={candidate} />
             ))}
             {activeCandidates.length === 0 && (
-              <p className="text-on-surface-variant text-sm text-center py-8">No candidates available.</p>
+              <p className="text-on-surface-variant text-sm text-center py-8">Không có ứng cử viên nào.</p>
             )}
           </section>
         </motion.div>
@@ -77,11 +77,11 @@ export default function RankingsView() {
           <div className="h-px flex-1 bg-gradient-to-l from-transparent to-outline-variant/30"></div>
         </div>
         <p className="font-headline italic text-on-surface-variant text-center text-sm px-10 leading-relaxed">
-          "The stars align only once. Your vote is the final spark."
+          "Các vì sao chỉ hội tụ một lần. Lá phiếu của bạn là tia sáng cuối cùng."
         </p>
         <div className="flex items-center gap-2 text-[10px] text-primary/60 font-bold uppercase tracking-[0.2em]">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-          LIVE UPDATING
+          ĐANG CẬP NHẬT TRỰC TIẾP
         </div>
       </div>
     </main>

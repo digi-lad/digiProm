@@ -38,20 +38,20 @@ function AppContent() {
   }, [currentView, ticketCode, isAdmin]);
 
   if (loading) {
-    return <div className="min-h-screen bg-surface flex items-center justify-center text-primary">Loading...</div>;
+    return <div className="min-h-screen bg-surface flex items-center justify-center text-primary">Đang tải...</div>;
   }
 
   if (authError) {
     return (
       <div className="min-h-screen bg-surface flex flex-col items-center justify-center text-center p-6">
         <ShieldAlert className="w-16 h-16 text-error mb-4" />
-        <h2 className="text-2xl font-headline text-error mb-2">Authentication Error</h2>
+        <h2 className="text-2xl font-headline text-error mb-2">Lỗi xác thực</h2>
         <p className="text-on-surface-variant max-w-md">{authError}</p>
         <button 
           onClick={() => window.location.reload()}
           className="mt-8 px-6 py-2 bg-primary text-on-primary rounded-full font-bold uppercase tracking-widest text-sm"
         >
-          Retry
+          Thử lại
         </button>
       </div>
     );
@@ -86,7 +86,7 @@ function AppContent() {
           onClick={() => handleViewChange('ADMIN')}
           className="fixed top-4 right-20 z-[60] bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-primary/20 hover:bg-primary/20 transition-all hidden md:block"
         >
-          Admin Panel
+          Bảng điều khiển Admin
         </button>
       )}
 

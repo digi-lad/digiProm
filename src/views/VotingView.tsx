@@ -106,17 +106,17 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
 
   const handleVote = async () => {
     if (!isPollOpen) {
-      alert("Voting is currently closed.");
+      alert("Bình chọn hiện đang đóng.");
       return;
     }
 
     if (selectedKings.length !== 3 || selectedQueens.length !== 3) {
-      alert("Please select exactly 3 Kings and 3 Queens.");
+      alert("Vui lòng chọn chính xác 3 King và 3 Queen.");
       return;
     }
 
     if (!ticketCode) {
-      alert("No valid ticket found. Please return to the gateway.");
+      alert("Không tìm thấy vé hợp lệ. Vui lòng quay lại cổng.");
       onViewChange('GATEWAY');
       return;
     }
@@ -127,7 +127,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
       const ticketSnap = await getDoc(ticketRef);
 
       if (!ticketSnap.exists()) {
-        alert("Invalid ticket code.");
+        alert("Mã vé không hợp lệ.");
         clearSession();
         onViewChange('GATEWAY');
         return;
@@ -135,7 +135,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
 
       const ticketData = ticketSnap.data();
       if (ticketData.status === 'USED') {
-        alert("This ticket has already been used.");
+        alert("Vé này đã được sử dụng.");
         setHasVoted(true);
         setIsVoting(false);
         return;
@@ -168,7 +168,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
       setIsVoting(false);
     } catch (error) {
       console.error("Error casting vote:", error);
-      alert("An error occurred while voting.");
+      alert("Có lỗi xảy ra trong quá trình bình chọn.");
       setIsVoting(false);
     }
   };
@@ -193,22 +193,22 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
       </div>
 
       <div className="mb-12">
-        <p className="font-body text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2">The Celestial Ballot</p>
-        <h2 className="font-headline text-3xl font-bold text-tertiary">Select Your Monarch</h2>
-        <p className="text-xs text-primary mt-2">Ticket: {ticketCode}</p>
+        <p className="font-body text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2">Lá Phiếu Tinh Tú</p>
+        <h2 className="font-headline text-3xl font-bold text-tertiary">Chọn Người Bạn Yêu Thích</h2>
+        <p className="text-xs text-primary mt-2">Vé: {ticketCode}</p>
         <p className="text-xs text-on-surface-variant mt-2 font-bold uppercase tracking-widest">
-          {activeRole === 'KING' ? `Kings Selected: ${selectedKings.length}/3` : `Queens Selected: ${selectedQueens.length}/3`}
+          {activeRole === 'KING' ? `Số King Đã Chọn: ${selectedKings.length}/3` : `Số Queen Đã Chọn: ${selectedQueens.length}/3`}
         </p>
         
         {isPollOpen ? (
           <div className="mt-6 bg-primary/10 border border-primary/30 rounded-xl p-4 flex flex-col items-center">
-            <span className="text-[10px] uppercase tracking-widest text-primary font-bold mb-1">Time Remaining</span>
+            <span className="text-[10px] uppercase tracking-widest text-primary font-bold mb-1">Thời Gian Còn Lại</span>
             <span className="font-mono text-3xl text-primary font-bold">{countdownString || '00:00'}</span>
           </div>
         ) : (
           <div className="mt-6 bg-error/20 border border-error/50 rounded-xl p-4 text-center">
-            <p className="text-error font-bold uppercase tracking-widest text-sm">Voting is Closed</p>
-            <p className="text-xs text-error/80 mt-1">Please wait for the admin to start the poll.</p>
+            <p className="text-error font-bold uppercase tracking-widest text-sm">Bình Chọn Đã Đóng</p>
+            <p className="text-xs text-error/80 mt-1">Vui lòng đợi admin mở bình chọn.</p>
           </div>
         )}
       </div>
@@ -231,7 +231,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
               />
             ))}
             {activeCandidates.length === 0 && (
-              <p className="text-on-surface-variant text-sm">No candidates available.</p>
+              <p className="text-on-surface-variant text-sm">Không có ứng cử viên nào.</p>
             )}
           </motion.div>
         </AnimatePresence>
@@ -245,7 +245,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
             className="w-full max-w-md mx-auto py-5 bg-surface-container-high/90 backdrop-blur-md border border-secondary/30 text-secondary font-body font-bold uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(245,206,83,0.1)] flex items-center justify-center gap-3"
           >
             <CheckCircle2 className="w-5 h-5" />
-            Vote Recorded Successfully
+            Ghi Nhận Bình Chọn Thành Công
           </motion.div>
         ) : !isPollOpen ? (
           <motion.div 
@@ -253,7 +253,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
             animate={{ opacity: 1, y: 0 }}
             className="w-full max-w-md mx-auto py-5 bg-surface-container-high/90 backdrop-blur-md border border-error/30 text-error font-body font-bold uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(245,83,83,0.1)] flex items-center justify-center gap-3"
           >
-            Voting is Closed
+            Bình Chọn Đã Đóng
           </motion.div>
         ) : (
           <motion.button 
@@ -262,7 +262,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
             disabled={isVoting || selectedKings.length !== 3 || selectedQueens.length !== 3}
             className="pointer-events-auto w-full max-w-md mx-auto py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary font-body font-bold uppercase tracking-[0.3em] rounded-xl shadow-[0_0_30px_rgba(245,206,83,0.3)] flex items-center justify-center gap-3 disabled:opacity-50"
           >
-            {isVoting ? 'Submitting...' : `Submit Vote (${selectedKings.length + selectedQueens.length}/6)`}
+            {isVoting ? 'Đang Gửi...' : `Gửi Bình Chọn (${selectedKings.length + selectedQueens.length}/6)`}
             {!isVoting && <Vote className="w-5 h-5" />}
           </motion.button>
         )}
