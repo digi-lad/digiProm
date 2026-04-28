@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and role",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] }
+      },
+      "required": ["email", "role"]
+    },
+    "Candidate": {
+      "title": "Candidate",
+      "description": "A candidate for Prom King or Queen",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "title": { "type": "string" },
+        "role": { "type": "string", "enum": ["KING", "QUEEN"] },
+        "imageUrl": { "type": "string" },
+        "votes": { "type": "number" }
+      },
+      "required": ["name", "title", "role", "imageUrl", "votes"]
+    },
+    "Ticket": {
+      "title": "Ticket",
+      "description": "A voting ticket",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "status": { "type": "string", "enum": ["UNUSED", "USED"] },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "className": { "type": "string" },
+        "usedBy": { "type": "string" },
+        "votedForKings": { "type": "array", "items": { "type": "string" } },
+        "votedForQueens": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["code", "status", "name", "type", "className"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "System settings",
+      "type": "object",
+      "properties": {
+        "isBlindMode": { "type": "boolean" },
+        "pollEndTime": { "type": "number" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User roles and profiles"
+    },
+    "/candidates/{candidateId}": {
+      "schema": { "$ref": "#/entities/Candidate" },
+      "description": "List of candidates"
+    },
+    "/tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/Ticket" },
+      "description": "List of tickets"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "System settings"
+    }
+  }
+}

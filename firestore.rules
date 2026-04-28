@@ -1,0 +1,134 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - email: string
+    //   - role: string ('admin' | 'user')
+    //
+    // Collection: candidates
+    // Document ID: {candidateId}
+    // Fields:
+    //   - name: string
+    //   - title: string
+    //   - role: string ('KING' | 'QUEEN')
+    //   - imageUrl: string
+    //   - votes: number
+    //
+    // Collection: tickets
+    // Document ID: {ticketId}
+    // Fields:
+    //   - code: string
+    //   - status: string ('UNUSED' | 'USED')
+    //   - name: string
+    //   - type: string
+    //   - className: string
+    //   - usedBy: string (optional)
+    //
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && (
+        (request.auth.token.email == "johnnhan85@gmail.com" && request.auth.token.email_verified == true) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasOnlyAllowedFields(['email', 'role']) &&
+             data.email is string &&
+             data.role in ['admin', 'user'];
+    }
+
+    function isValidCandidate(data) {
+      return hasOnlyAllowedFields(['name', 'title', 'role', 'imageUrl', 'votes']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.title is string && data.title.size() < 200 &&
+             data.role in ['KING', 'QUEEN'] &&
+             data.imageUrl is string && data.imageUrl.size() < 1000 &&
+             data.votes is number && data.votes >= 0;
+    }
+
+    function isValidTicket(data) {
+      return data.keys().hasOnly(['code', 'status', 'name', 'type', 'className', 'usedBy', 'votedForKings', 'votedForQueens']) &&
+             data.code is string && data.code.size() > 0 && data.code.size() < 50 &&
+             data.status in ['UNUSED', 'USED'] &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.type is string && data.type.size() > 0 && data.type.size() < 50 &&
+             data.className is string && data.className.size() < 50 &&
+             (!('usedBy' in data) || data.usedBy is string) &&
+             (!('votedForKings' in data) || data.votedForKings == null || (data.votedForKings is list && data.votedForKings.size() == 3)) &&
+             (!('votedForQueens' in data) || data.votedForQueens == null || (data.votedForQueens is list && data.votedForQueens.size() == 3));
+    }
+
+    function isPollOpen() {
+      let sys = get(/databases/$(database)/documents/settings/system);
+      return sys != null && 'pollEndTime' in sys.data && sys.data.pollEndTime != null && sys.data.pollEndTime > request.time.toMillis();
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /candidates/{candidateId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin() && isValidCandidate(request.resource.data);
+      allow update: if (isAdmin() && isValidCandidate(request.resource.data)) || (
+        isAuthenticated() && 
+        isPollOpen() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['votes']) &&
+        request.resource.data.votes == resource.data.votes + 1 &&
+        isValidCandidate(request.resource.data)
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /tickets/{ticketId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin() && isValidTicket(request.resource.data);
+      allow update: if (isAdmin() && isValidTicket(request.resource.data)) || (
+        isAuthenticated() &&
+        isPollOpen() &&
+        resource.data.status == 'UNUSED' &&
+        request.resource.data.status == 'USED' &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'usedBy', 'votedForKings', 'votedForQueens']) &&
+        request.resource.data.usedBy == request.auth.uid &&
+        isValidTicket(request.resource.data)
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /settings/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+  }
+}
