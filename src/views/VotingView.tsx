@@ -45,7 +45,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
 
   useEffect(() => {
     if (!ticketCode) return;
-    
+
     const unsubTicket = onSnapshot(doc(db, 'tickets', ticketCode), (docSnap) => {
       if (docSnap.exists() && docSnap.data().status === 'USED') {
         setHasVoted(true);
@@ -88,7 +88,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
 
   const handleSelect = (id: string) => {
     if (hasVoted || !isPollOpen) return;
-    
+
     if (activeRole === 'KING') {
       setSelectedKings(prev => {
         if (prev.includes(id)) return prev.filter(k => k !== id);
@@ -177,13 +177,13 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
     <main className="min-h-screen pt-24 pb-48 px-6 stardust-bg">
       <div className="flex justify-center mb-10 w-full">
         <div className="flex bg-surface-container rounded-full p-1.5 w-full max-w-sm">
-          <button 
+          <button
             onClick={() => setActiveRole('KING')}
             className={`flex-1 py-3 px-6 rounded-full font-bold transition-all duration-300 ${activeRole === 'KING' ? 'text-primary border-b-2 border-secondary' : 'text-on-surface/60'}`}
           >
             <span className="font-body uppercase tracking-widest text-xs">King</span>
           </button>
-          <button 
+          <button
             onClick={() => setActiveRole('QUEEN')}
             className={`flex-1 py-3 px-6 rounded-full font-bold transition-all duration-300 ${activeRole === 'QUEEN' ? 'text-primary border-b-2 border-secondary' : 'text-on-surface/60'}`}
           >
@@ -193,13 +193,12 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
       </div>
 
       <div className="mb-12">
-        <p className="font-body text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2">Lá Phiếu Tinh Tú</p>
-        <h2 className="font-headline text-3xl font-bold text-tertiary">Chọn Người Bạn Yêu Thích</h2>
-        <p className="text-xs text-primary mt-2">Vé: {ticketCode}</p>
+        <h2 className="font-headline text-3xl font-bold text-tertiary">Cổng Bình Chọn</h2>
+        <p className="text-xs text-primary mt-2">ID: {ticketCode}</p>
         <p className="text-xs text-on-surface-variant mt-2 font-bold uppercase tracking-widest">
           {activeRole === 'KING' ? `Số King Đã Chọn: ${selectedKings.length}/3` : `Số Queen Đã Chọn: ${selectedQueens.length}/3`}
         </p>
-        
+
         {isPollOpen ? (
           <div className="mt-6 bg-primary/10 border border-primary/30 rounded-xl p-4 flex flex-col items-center">
             <span className="text-[10px] uppercase tracking-widest text-primary font-bold mb-1">Thời Gian Còn Lại</span>
@@ -215,7 +214,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <AnimatePresence mode="wait">
-          <motion.div 
+          <motion.div
             key={activeRole}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -223,7 +222,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
             className="grid grid-cols-1 gap-12"
           >
             {activeCandidates.map(candidate => (
-              <CandidateCard 
+              <CandidateCard
                 key={candidate.id}
                 candidate={candidate}
                 isSelected={selectedIds.includes(candidate.id)}
@@ -239,16 +238,16 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
 
       <div className="fixed bottom-28 left-0 w-full px-6 pointer-events-none z-40">
         {hasVoted ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="w-full max-w-md mx-auto py-5 bg-surface-container-high/90 backdrop-blur-md border border-secondary/30 text-secondary font-body font-bold uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(245,206,83,0.1)] flex items-center justify-center gap-3"
           >
             <CheckCircle2 className="w-5 h-5" />
-            Ghi Nhận Bình Chọn Thành Công
+            Đã Ghi Nhận Bình Chọn
           </motion.div>
         ) : !isPollOpen ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="w-full max-w-md mx-auto py-5 bg-surface-container-high/90 backdrop-blur-md border border-error/30 text-error font-body font-bold uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(245,83,83,0.1)] flex items-center justify-center gap-3"
@@ -256,7 +255,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
             Bình Chọn Đã Đóng
           </motion.div>
         ) : (
-          <motion.button 
+          <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleVote}
             disabled={isVoting || selectedKings.length !== 3 || selectedQueens.length !== 3}

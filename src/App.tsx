@@ -15,13 +15,7 @@ function AppContent() {
   const { isAdmin, ticketCode, loading, authError } = useAuth();
 
   const handleViewChange = (view: View) => {
-    if (view === 'VOTING' && !ticketCode && !isAdmin) {
-      setCurrentView('GATEWAY');
-    } else if (view === 'ADMIN' && !isAdmin) {
-      setCurrentView('GATEWAY');
-    } else {
-      setCurrentView(view);
-    }
+    setCurrentView(view);
   };
 
   // Expose navigation to window for the demo admin toggle

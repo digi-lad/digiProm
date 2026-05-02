@@ -53,7 +53,6 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
         className="w-full max-w-md flex flex-col items-center"
       >
         <div className="mb-12 text-center">
-          <Stars className="w-16 h-16 text-primary mx-auto mb-6 drop-shadow-[0_0_15px_#ffbf00]" />
           <h1 className="font-headline text-5xl font-bold text-primary italic mb-2">digiProm</h1>
           <p className="text-on-surface-variant font-body tracking-[0.2em] text-sm uppercase">Trường THPT chuyên Lê Quý Đôn</p>
         </div>
@@ -64,7 +63,7 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter Access Code"
+              placeholder="Nhập Mã Bình Chọn"
               className="w-full bg-surface-container-high/50 border border-outline-variant/30 rounded-2xl px-6 py-5 text-center text-xl font-headline tracking-widest text-on-surface placeholder:text-on-surface-variant/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all uppercase"
               disabled={isProcessing}
             />
@@ -88,7 +87,7 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
             <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-20 transition-opacity"></div>
             <div className="bg-surface-container-highest px-8 py-4 rounded-[15px] flex items-center justify-center gap-3 transition-colors group-hover:bg-surface-container-highest/80">
               <span className="font-headline font-bold text-lg text-primary tracking-wider uppercase">
-                {isProcessing ? 'Verifying...' : 'Enter'}
+                {isProcessing ? 'Đang Kiểm Tra...' : 'Đăng nhập'}
               </span>
               {!isProcessing && <ArrowRight className="w-5 h-5 text-primary" />}
             </div>
@@ -134,6 +133,13 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
           )}
         </div>
       </motion.div>
+
+      <footer className="absolute bottom-6 w-full text-center px-6">
+        <p className="text-on-surface-variant/40 text-[10px] tracking-widest font-bold leading-relaxed">
+          &copy; 2025 digiLad<br />
+          <span className="uppercase text-[9px] opacity-80">(Lê Viết Thành Nhân - Chuyên Tin Niên khóa 23-26)</span>
+        </p>
+      </footer>
     </main>
   );
 }
