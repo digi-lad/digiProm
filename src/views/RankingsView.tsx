@@ -69,7 +69,7 @@ export default function RankingsView() {
   return (
     <main className="min-h-screen pt-24 pb-32 px-6 max-w-lg mx-auto">
       <div className="mb-10 text-center relative flex flex-col items-center">
-        <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-64 nebula-glow -z-10"></div>
+        <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -z-10 opacity-60 pointer-events-none"></div>
         {countdownString ? (
           <div className="mb-2 inline-flex flex-col items-center">
             <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-secondary mb-1">Dừng bình chọn sau</span>

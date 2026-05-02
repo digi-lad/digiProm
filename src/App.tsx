@@ -32,7 +32,34 @@ function AppContent() {
   }, [currentView, ticketCode, isAdmin]);
 
   if (loading) {
-    return <div className="min-h-screen bg-surface flex items-center justify-center text-primary">Đang tải...</div>;
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center text-primary relative overflow-hidden">
+        <div className="absolute inset-0 stardust-bg opacity-30"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"></div>
+        
+        <div className="relative flex flex-col items-center z-10">
+          <h1 className="font-headline text-4xl font-bold text-primary italic mb-10 drop-shadow-[0_0_15px_rgba(245,206,83,0.5)]">digiProm</h1>
+          
+          <div className="relative w-24 h-24 mb-8">
+            <div className="absolute inset-0 rounded-full border-t-[3px] border-primary animate-[spin_2s_linear_infinite] opacity-90 drop-shadow-[0_0_10px_rgba(245,206,83,0.5)]"></div>
+            <div className="absolute inset-2 rounded-full border-r-[3px] border-secondary animate-[spin_3s_linear_infinite_reverse] opacity-70"></div>
+            <div className="absolute inset-4 rounded-full border-b-[3px] border-on-surface animate-[spin_1.5s_linear_infinite] opacity-50"></div>
+            <div className="absolute inset-0 rounded-full bg-primary/10 blur-md animate-pulse"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-2 h-2 bg-primary rounded-full animate-ping"></div>
+            </div>
+          </div>
+          
+          <h2 className="text-xl md:text-2xl font-headline tracking-[0.3em] uppercase shimmer-text mb-4 ml-2">Đang tải</h2>
+          
+          <div className="flex space-x-2">
+            <div className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+            <div className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+            <div className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (authError) {

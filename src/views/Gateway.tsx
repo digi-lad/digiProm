@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Stars, ArrowRight, BarChart2, ShieldAlert, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -36,7 +36,7 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
       if (success) {
         onEnterVoting();
       } else {
-        setError('Invalid or already used ticket code.');
+        setError('Mã không hợp lệ');
       }
     }
 
@@ -45,7 +45,7 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden stardust-bg">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] nebula-glow -z-10 opacity-50"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] -z-10 opacity-50 pointer-events-none"></div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -67,16 +67,6 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
               className="w-full bg-surface-container-high/50 border border-outline-variant/30 rounded-2xl px-6 py-5 text-center text-xl font-headline tracking-widest text-on-surface placeholder:text-on-surface-variant/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all uppercase"
               disabled={isProcessing}
             />
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="absolute -bottom-8 left-0 w-full flex items-center justify-center gap-2 text-error text-sm font-semibold"
-              >
-                <ShieldAlert className="w-4 h-4" />
-                {error}
-              </motion.div>
-            )}
           </div>
 
           <button
@@ -140,6 +130,45 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
           <span className="uppercase text-[9px] opacity-80">(Lê Viết Thành Nhân - Chuyên Tin Niên khóa 23-26)</span>
         </p>
       </footer>
+
+      {/* Error Popup */}
+      <AnimatePresence>
+        {error && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-surface/80 backdrop-blur-sm"
+              onClick={() => setError('')}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative bg-surface-container-high border border-outline-variant/30 rounded-3xl p-8 max-w-sm w-full text-center shadow-[0_0_40px_rgba(0,0,0,0.3)] overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-error to-transparent"></div>
+              
+              <div className="w-16 h-16 bg-error/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <ShieldAlert className="w-8 h-8 text-error" />
+              </div>
+              
+              <h3 className="text-2xl font-headline text-on-surface mb-2 tracking-wide">Lỗi Đăng Nhập</h3>
+              <p className="text-on-surface-variant mb-8 text-base">
+                {error}
+              </p>
+              
+              <button
+                onClick={() => setError('')}
+                className="w-full bg-surface-container-highest hover:bg-surface-container-highest/80 text-on-surface font-bold py-3 rounded-xl transition-colors tracking-widest uppercase text-sm border border-outline-variant/20"
+              >
+                Đã hiểu
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
