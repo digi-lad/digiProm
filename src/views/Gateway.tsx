@@ -126,7 +126,7 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
 
       <footer className="absolute bottom-6 w-full text-center px-6">
         <p className="text-on-surface-variant/40 text-[10px] tracking-widest font-bold leading-relaxed">
-          &copy; 2025 digiLad<br />
+          &copy; 2026 digiLad<br />
           <span className="uppercase text-[9px] opacity-80">(Lê Viết Thành Nhân - Chuyên Tin Niên khóa 23-26)</span>
         </p>
       </footer>
