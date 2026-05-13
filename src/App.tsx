@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View } from './types';
 import Header from './components/Header';
-import BottomNav from './components/BottomNav';
 import VotingView from './views/VotingView';
-import RankingsView from './views/RankingsView';
 import AdminDashboard from './views/AdminDashboard';
 import LedLeaderboard from './views/LedLeaderboard';
 import Gateway from './views/Gateway';
@@ -93,14 +91,10 @@ function AppContent() {
       {currentView !== 'ADMIN' && currentView !== 'LED_LEADERBOARD' && <Header />}
       
       {currentView === 'VOTING' && <VotingView onViewChange={handleViewChange} />}
-      {currentView === 'RANKINGS' && <RankingsView />}
       {currentView === 'ADMIN' && isAdmin && <AdminDashboard />}
       {currentView === 'LED_LEADERBOARD' && <LedLeaderboard onViewChange={handleViewChange} />}
 
-      {currentView !== 'ADMIN' && currentView !== 'LED_LEADERBOARD' && (
-        <BottomNav currentView={currentView} onViewChange={handleViewChange} />
-      )}
-      
+
       {/* Admin toggle if on desktop and not in admin view */}
       {currentView !== 'ADMIN' && currentView !== 'LED_LEADERBOARD' && isAdmin && (
         <button 

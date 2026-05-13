@@ -85,27 +85,13 @@ export default function Gateway({ onEnterVoting, onEnterAdmin, onEnterRankings }
         </form>
 
         <div className="mt-12 w-full flex flex-col items-center gap-6">
-          <div className="flex items-center gap-4 w-full">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-outline-variant/30"></div>
-            <span className="text-on-surface-variant/50 text-xs font-bold uppercase tracking-widest">HOẶC</span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-outline-variant/30"></div>
-          </div>
-
-          {isAdmin ? (
+          {isAdmin && (
             <button
               onClick={onEnterAdmin}
               className="flex items-center gap-2 text-primary hover:text-secondary transition-colors font-bold uppercase tracking-widest"
             >
               <ArrowRight className="w-4 h-4" />
               <span className="text-sm">Return to Admin Dashboard</span>
-            </button>
-          ) : (
-            <button
-              onClick={onEnterRankings}
-              className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors"
-            >
-              <BarChart2 className="w-4 h-4" />
-              <span className="text-sm font-semibold tracking-wider uppercase">Xem Xếp Hạng Trực Tiếp</span>
             </button>
           )}
 

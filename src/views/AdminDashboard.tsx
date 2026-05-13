@@ -218,8 +218,7 @@ export default function AdminDashboard() {
 
   const generateTicketCode = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    const segment = () => Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    return `${segment()}-${segment()}-${segment()}`;
+    return Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
   };
 
   const handleAddTicket = async () => {

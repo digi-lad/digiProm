@@ -174,42 +174,55 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
   };
 
   return (
-    <main className="min-h-screen pt-24 pb-48 px-6 stardust-bg">
+    <main className="min-h-screen pt-24 pb-32 px-6 stardust-bg">
+      <div className="mb-10 flex flex-col items-center text-center">
+        <h2 className="font-headline text-4xl font-bold text-tertiary shimmer-text mb-4 drop-shadow-[0_0_15px_rgba(245,206,83,0.3)]">Cổng Bình Chọn</h2>
+        
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+          <p className="text-[10px] text-primary font-bold uppercase tracking-widest bg-primary/10 px-4 py-2 rounded-full border border-primary/20">
+            Mã Vé: <span className="text-on-surface">{ticketCode}</span>
+          </p>
+          <p className="text-[10px] font-bold uppercase tracking-widest bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20 text-secondary">
+            {activeRole === 'KING' ? `King Đã Chọn: ${selectedKings.length}/3` : `Queen Đã Chọn: ${selectedQueens.length}/3`}
+          </p>
+        </div>
+        
+        {isPollOpen ? (
+          <div className="bg-primary/10 border border-primary/30 rounded-2xl p-4 flex flex-col items-center min-w-[180px] shadow-[0_0_25px_rgba(245,206,83,0.15)] relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
+            <span className="relative z-10 text-[10px] uppercase tracking-widest text-primary font-bold mb-1">Thời Gian Còn Lại</span>
+            <span className="relative z-10 font-mono text-3xl text-primary font-bold tracking-wider">{countdownString || '00:00'}</span>
+          </div>
+        ) : (
+          <div className="bg-error/20 border border-error/50 rounded-2xl p-4 text-center min-w-[180px] relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-error/10 to-transparent"></div>
+            <p className="relative z-10 text-error font-bold uppercase tracking-widest text-sm">Bình Chọn Đã Đóng</p>
+            <p className="relative z-10 text-[10px] text-error/80 mt-1 uppercase tracking-widest">Vui lòng đợi admin mở lại</p>
+          </div>
+        )}
+      </div>
+
       <div className="flex justify-center mb-10 w-full">
-        <div className="flex bg-surface-container rounded-full p-1.5 w-full max-w-sm">
+        <div className="relative flex bg-surface-container/50 backdrop-blur-md rounded-2xl p-1.5 w-full max-w-sm border border-outline-variant/30 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+          <div 
+            className="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-gradient-to-r from-primary to-primary-container rounded-xl transition-all duration-500 ease-out shadow-[0_0_20px_rgba(245,206,83,0.3)]"
+            style={{ 
+              left: activeRole === 'KING' ? '6px' : 'calc(50%)',
+            }}
+          />
           <button
             onClick={() => setActiveRole('KING')}
-            className={`flex-1 py-3 px-6 rounded-full font-bold transition-all duration-300 ${activeRole === 'KING' ? 'text-primary border-b-2 border-secondary' : 'text-on-surface/60'}`}
+            className={`relative flex-1 py-3 px-6 rounded-xl transition-colors duration-300 z-10 ${activeRole === 'KING' ? 'text-on-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
           >
-            <span className="font-body uppercase tracking-widest text-xs">King</span>
+            <span className="font-headline font-bold uppercase tracking-widest text-sm">King</span>
           </button>
           <button
             onClick={() => setActiveRole('QUEEN')}
-            className={`flex-1 py-3 px-6 rounded-full font-bold transition-all duration-300 ${activeRole === 'QUEEN' ? 'text-primary border-b-2 border-secondary' : 'text-on-surface/60'}`}
+            className={`relative flex-1 py-3 px-6 rounded-xl transition-colors duration-300 z-10 ${activeRole === 'QUEEN' ? 'text-on-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
           >
-            <span className="font-body uppercase tracking-widest text-xs">Queen</span>
+            <span className="font-headline font-bold uppercase tracking-widest text-sm">Queen</span>
           </button>
         </div>
-      </div>
-
-      <div className="mb-12">
-        <h2 className="font-headline text-3xl font-bold text-tertiary">Cổng Bình Chọn</h2>
-        <p className="text-xs text-primary mt-2">ID: {ticketCode}</p>
-        <p className="text-xs text-on-surface-variant mt-2 font-bold uppercase tracking-widest">
-          {activeRole === 'KING' ? `Số King Đã Chọn: ${selectedKings.length}/3` : `Số Queen Đã Chọn: ${selectedQueens.length}/3`}
-        </p>
-
-        {isPollOpen ? (
-          <div className="mt-6 bg-primary/10 border border-primary/30 rounded-xl p-4 flex flex-col items-center">
-            <span className="text-[10px] uppercase tracking-widest text-primary font-bold mb-1">Thời Gian Còn Lại</span>
-            <span className="font-mono text-3xl text-primary font-bold">{countdownString || '00:00'}</span>
-          </div>
-        ) : (
-          <div className="mt-6 bg-error/20 border border-error/50 rounded-xl p-4 text-center">
-            <p className="text-error font-bold uppercase tracking-widest text-sm">Bình Chọn Đã Đóng</p>
-            <p className="text-xs text-error/80 mt-1">Vui lòng đợi admin mở bình chọn.</p>
-          </div>
-        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -236,7 +249,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
         </AnimatePresence>
       </div>
 
-      <div className="fixed bottom-28 left-0 w-full px-6 pointer-events-none z-40">
+      <div className="fixed bottom-10 left-0 w-full px-6 pointer-events-none z-40">
         {hasVoted ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

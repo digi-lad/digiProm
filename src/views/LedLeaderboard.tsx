@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 import { Stars, UserCircle, Eye, EyeOff, Lock, Sparkles, LogOut } from 'lucide-react';
 import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -51,7 +53,9 @@ function LedRankRow({ candidate, rank, totalTickets, isBlind }: LedRankRowProps)
 }
 
 export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: View) => void }) {
+  const { width, height } = useWindowSize();
   const [isBlindMode, setIsBlindMode] = useState(true);
+  const [hasRevealed, setHasRevealed] = useState(false);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [pollEndTime, setPollEndTime] = useState<number | null>(null);
   const [countdownString, setCountdownString] = useState('');
@@ -68,6 +72,7 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
       updateDoc(doc(db, 'settings', 'system'), {
         isBlindMode: false
       });
+      setHasRevealed(true);
       setRevealCountdown(null);
     }
   }, [revealCountdown]);
@@ -149,7 +154,19 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
   };
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface font-body overflow-hidden stardust-bg">
+    <div className="min-h-screen bg-surface text-on-surface font-body overflow-hidden stardust-bg relative">
+      {hasRevealed && (
+        <div className="absolute inset-0 z-40 pointer-events-none">
+          <Confetti 
+            width={width} 
+            height={height} 
+            recycle={false} 
+            numberOfPieces={1000} 
+            gravity={0.15} 
+            colors={['#F5CE53', '#FFFFFF', '#D4AF37', '#FFDF00']}
+          />
+        </div>
+      )}
       {/* Top Bar */}
       <header className="fixed top-0 w-full z-50 flex items-center justify-between px-12 py-6 bg-[#000e25]/80 backdrop-blur-xl border-b border-primary/5">
         <div className="flex items-center gap-4 w-1/3">
@@ -212,7 +229,7 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
         )}
       </AnimatePresence>
 
-      <main className={`px-12 h-screen w-full flex flex-col transition-all duration-1000 ${isBlindMode ? 'justify-center items-center pt-24' : 'pt-40 pb-12'}`}>
+      <main className={`px-12 h-screen w-full flex flex-col transition-all duration-1000 ${(!isBlindMode && !hasRevealed) ? 'pt-32 pb-8' : 'justify-center items-center'}`}>
         
         {isBlindMode && (
           <div className="flex flex-col items-center text-center w-full mb-24 scale-125 z-40">
@@ -227,10 +244,10 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
           </div>
         )}
 
-        <div className={`w-full grid grid-cols-2 gap-16 transition-all duration-1000 ${isBlindMode ? 'scale-[1.15]' : ''}`}>
+        <div className={`w-full transition-all duration-1000 ${(!isBlindMode && !hasRevealed) ? 'grid grid-cols-2 gap-16 scale-100' : 'flex justify-center gap-32 scale-[1.3]'}`}>
         {/* TOP KING SECTION */}
         <section className="flex flex-col">
-          <div className="flex items-end justify-center h-[420px] pb-6 gap-8">
+          <div className={`flex items-end justify-center h-[420px] pb-6 ${(!isBlindMode && !hasRevealed) ? 'gap-8' : 'gap-16'}`}>
             {/* Top 2 King (Left) */}
             {kings[1] && (
               <motion.div 
@@ -322,7 +339,7 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
             </motion.div>
           </div>
 
-          {!isBlindMode && (
+          {!isBlindMode && !hasRevealed && (
             <div className="flex flex-col space-y-2 mt-4 px-8">
               {kings.slice(2, 10).map((candidate, idx) => (
                 <LedRankRow
@@ -339,7 +356,7 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
 
         {/* TOP QUEEN SECTION */}
         <section className="flex flex-col">
-          <div className="flex items-end justify-center h-[420px] pb-6 gap-8">
+          <div className={`flex items-end justify-center h-[420px] pb-6 ${(!isBlindMode && !hasRevealed) ? 'gap-8' : 'gap-16'}`}>
             {/* Top 1 Queen (Left) */}
             <motion.div 
               animate={{ y: [0, -10, 0] }}
@@ -431,7 +448,7 @@ export default function LedLeaderboard({ onViewChange }: { onViewChange: (view: 
             )}
           </div>
 
-          {!isBlindMode && (
+          {!isBlindMode && !hasRevealed && (
             <div className="flex flex-col space-y-2 mt-4 px-8">
               {queens.slice(2, 10).map((candidate, idx) => (
                 <LedRankRow

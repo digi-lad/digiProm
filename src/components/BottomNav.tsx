@@ -32,13 +32,6 @@ export default function BottomNav({ currentView, onViewChange }: BottomNavProps)
         </button>
       )}
       
-      <button 
-        onClick={() => onViewChange('RANKINGS')}
-        className={`flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all ${currentView === 'RANKINGS' ? 'bg-primary/10 text-primary' : 'text-on-surface/40'}`}
-      >
-        <BarChart3 className="w-6 h-6" />
-        <span className="font-body text-[10px] uppercase tracking-widest mt-1">Xếp hạng</span>
-      </button>
     </nav>
   );
 }
