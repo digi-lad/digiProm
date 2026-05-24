@@ -41,6 +41,8 @@ export default function AdminDashboard() {
   const [isBlindMode, setIsBlindMode] = useState(true);
   const [pollEndTime, setPollEndTime] = useState<number | null>(null);
   const [pollDurationMinutes, setPollDurationMinutes] = useState(5);
+  const [maxVotesForKing, setMaxVotesForKing] = useState(3);
+  const [maxVotesForQueen, setMaxVotesForQueen] = useState(3);
   const [countdownString, setCountdownString] = useState('');
   const [editingCandidate, setEditingCandidate] = useState<Candidate | null>(null);
   const [isAddingCandidate, setIsAddingCandidate] = useState(false);
@@ -80,8 +82,14 @@ export default function AdminDashboard() {
 
     const unsubSettings = onSnapshot(doc(db, 'settings', 'system'), (docSnap) => {
       if (docSnap.exists()) {
-        setIsBlindMode(docSnap.data().isBlindMode ?? true);
-        setPollEndTime(docSnap.data().pollEndTime ?? null);
+        const data = docSnap.data();
+        setIsBlindMode(data.isBlindMode ?? true);
+        setPollEndTime(data.pollEndTime ?? null);
+        if (data.maxVotesForKing !== undefined) setMaxVotesForKing(data.maxVotesForKing);
+        else if (data.maxVotesPerRole !== undefined) setMaxVotesForKing(data.maxVotesPerRole); // fallback
+        
+        if (data.maxVotesForQueen !== undefined) setMaxVotesForQueen(data.maxVotesForQueen);
+        else if (data.maxVotesPerRole !== undefined) setMaxVotesForQueen(data.maxVotesPerRole); // fallback
       }
     });
 
@@ -134,6 +142,22 @@ export default function AdminDashboard() {
       await setDoc(doc(db, 'settings', 'system'), { pollEndTime: null }, { merge: true });
     } catch (error) {
       console.error("Error stopping poll:", error);
+    }
+  };
+
+  const updateMaxVotesKing = async (value: number) => {
+    try {
+      await setDoc(doc(db, 'settings', 'system'), { maxVotesForKing: value }, { merge: true });
+    } catch (error) {
+      console.error("Error updating max King votes:", error);
+    }
+  };
+
+  const updateMaxVotesQueen = async (value: number) => {
+    try {
+      await setDoc(doc(db, 'settings', 'system'), { maxVotesForQueen: value }, { merge: true });
+    } catch (error) {
+      console.error("Error updating max Queen votes:", error);
     }
   };
 
@@ -496,6 +520,43 @@ export default function AdminDashboard() {
               </div>
             )}
             <p className="text-[8px] text-on-surface-variant leading-tight mt-2 pb-1 border-b border-primary/10">Thiết lập thời gian đếm ngược cho người dùng bình chọn.</p>
+          </div>
+
+          {/* Voting Settings */}
+          <div className="bg-surface-variant/40 rounded-xl p-4 border border-secondary/20">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-[10px] uppercase tracking-widest text-secondary font-bold">Cấu Hình Bầu Chọn</span>
+            </div>
+            
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                <span className="text-[10px] text-on-surface-variant font-bold">Số phiếu King:</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={maxVotesForKing}
+                    onChange={e => setMaxVotesForKing(Math.max(1, parseInt(e.target.value) || 1))}
+                    onBlur={() => updateMaxVotesKing(maxVotesForKing)}
+                    className="w-12 bg-surface-container border border-outline-variant/30 rounded p-1 text-xs text-on-surface focus:outline-none"
+                    min="1"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] text-on-surface-variant font-bold">Số phiếu Queen:</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={maxVotesForQueen}
+                    onChange={e => setMaxVotesForQueen(Math.max(1, parseInt(e.target.value) || 1))}
+                    onBlur={() => updateMaxVotesQueen(maxVotesForQueen)}
+                    className="w-12 bg-surface-container border border-outline-variant/30 rounded p-1 text-xs text-on-surface focus:outline-none"
+                    min="1"
+                  />
+                </div>
+              </div>
+            </div>
+            <p className="text-[8px] text-on-surface-variant leading-tight mt-2">Số lượng ứng viên tối đa mỗi người có thể bầu cho mỗi danh hiệu.</p>
           </div>
 
           {/* Danger Zone */}

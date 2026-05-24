@@ -20,6 +20,8 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
   const [hasVoted, setHasVoted] = useState(false);
   const [pollEndTime, setPollEndTime] = useState<number | null>(null);
   const [countdownString, setCountdownString] = useState('');
+  const [maxVotesForKing, setMaxVotesForKing] = useState(3);
+  const [maxVotesForQueen, setMaxVotesForQueen] = useState(3);
   const { ticketCode, clearSession } = useAuth();
 
   useEffect(() => {
@@ -33,7 +35,14 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
 
     const unsubSettings = onSnapshot(doc(db, 'settings', 'system'), (docSnap) => {
       if (docSnap.exists()) {
-        setPollEndTime(docSnap.data().pollEndTime ?? null);
+        const data = docSnap.data();
+        setPollEndTime(data.pollEndTime ?? null);
+        
+        if (data.maxVotesForKing !== undefined) setMaxVotesForKing(data.maxVotesForKing);
+        else if (data.maxVotesPerRole !== undefined) setMaxVotesForKing(data.maxVotesPerRole); // fallback
+        
+        if (data.maxVotesForQueen !== undefined) setMaxVotesForQueen(data.maxVotesForQueen);
+        else if (data.maxVotesPerRole !== undefined) setMaxVotesForQueen(data.maxVotesPerRole); // fallback
       }
     });
 
@@ -92,13 +101,13 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
     if (activeRole === 'KING') {
       setSelectedKings(prev => {
         if (prev.includes(id)) return prev.filter(k => k !== id);
-        if (prev.length >= 3) return prev;
+        if (prev.length >= maxVotesForKing) return prev;
         return [...prev, id];
       });
     } else {
       setSelectedQueens(prev => {
         if (prev.includes(id)) return prev.filter(q => q !== id);
-        if (prev.length >= 3) return prev;
+        if (prev.length >= maxVotesForQueen) return prev;
         return [...prev, id];
       });
     }
@@ -110,8 +119,8 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
       return;
     }
 
-    if (selectedKings.length !== 3 || selectedQueens.length !== 3) {
-      alert("Vui lòng chọn chính xác 3 King và 3 Queen.");
+    if (selectedKings.length !== maxVotesForKing || selectedQueens.length !== maxVotesForQueen) {
+      alert(`Vui lòng chọn chính xác ${maxVotesForKing} King và ${maxVotesForQueen} Queen.`);
       return;
     }
 
@@ -183,7 +192,7 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
             Mã Vé: <span className="text-on-surface">{ticketCode}</span>
           </p>
           <p className="text-[10px] font-bold uppercase tracking-widest bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20 text-secondary">
-            {activeRole === 'KING' ? `King Đã Chọn: ${selectedKings.length}/3` : `Queen Đã Chọn: ${selectedQueens.length}/3`}
+            {activeRole === 'KING' ? `King Đã Chọn: ${selectedKings.length}/${maxVotesForKing}` : `Queen Đã Chọn: ${selectedQueens.length}/${maxVotesForQueen}`}
           </p>
         </div>
         
@@ -271,10 +280,10 @@ export default function VotingView({ onViewChange }: VotingViewProps) {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleVote}
-            disabled={isVoting || selectedKings.length !== 3 || selectedQueens.length !== 3}
+            disabled={isVoting || selectedKings.length !== maxVotesForKing || selectedQueens.length !== maxVotesForQueen}
             className="pointer-events-auto w-full max-w-md mx-auto py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary font-body font-bold uppercase tracking-[0.3em] rounded-xl shadow-[0_0_30px_rgba(245,206,83,0.3)] flex items-center justify-center gap-3 disabled:opacity-50"
           >
-            {isVoting ? 'Đang Gửi...' : `Gửi Bình Chọn (${selectedKings.length + selectedQueens.length}/6)`}
+            {isVoting ? 'Đang Gửi...' : `Gửi Bình Chọn (${selectedKings.length + selectedQueens.length}/${maxVotesForKing + maxVotesForQueen})`}
             {!isVoting && <Vote className="w-5 h-5" />}
           </motion.button>
         )}
